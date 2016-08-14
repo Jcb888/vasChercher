@@ -20,7 +20,7 @@ namespace vasChercher
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show("test");
+            MessageBox.Show("test 2");
         }
     }
 }
