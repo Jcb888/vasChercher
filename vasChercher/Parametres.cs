@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace vasChercher
 {
-    public partial class Form1 : Form
+    public partial class Parametres : Form
     {
-        public Form1()
+        public Parametres()
         {
             InitializeComponent();
-        }
-
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            MessageBox.Show("test");
         }
     }
 }
