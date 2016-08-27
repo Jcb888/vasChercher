@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtBoxSourcePath = new System.Windows.Forms.TextBox();
+            this.txtBoxDestinationPath = new System.Windows.Forms.TextBox();
             this.buttonSource = new System.Windows.Forms.Button();
             this.buttonExecuter = new System.Windows.Forms.Button();
             this.dateTimePickerAchercher = new System.Windows.Forms.DateTimePicker();
@@ -37,12 +37,12 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // txtBoxSourcePath
+            // txtBoxDestinationPath
             // 
-            this.txtBoxSourcePath.Location = new System.Drawing.Point(13, 64);
-            this.txtBoxSourcePath.Name = "txtBoxSourcePath";
-            this.txtBoxSourcePath.Size = new System.Drawing.Size(336, 20);
-            this.txtBoxSourcePath.TabIndex = 0;
+            this.txtBoxDestinationPath.Location = new System.Drawing.Point(13, 64);
+            this.txtBoxDestinationPath.Name = "txtBoxDestinationPath";
+            this.txtBoxDestinationPath.Size = new System.Drawing.Size(336, 20);
+            this.txtBoxDestinationPath.TabIndex = 0;
             // 
             // buttonSource
             // 
@@ -52,6 +52,7 @@
             this.buttonSource.TabIndex = 2;
             this.buttonSource.Text = "...";
             this.buttonSource.UseVisualStyleBackColor = true;
+            this.buttonSource.Click += new System.EventHandler(this.buttonSource_Click);
             // 
             // buttonExecuter
             // 
@@ -95,11 +96,12 @@
             this.Controls.Add(this.dateTimePickerAchercher);
             this.Controls.Add(this.buttonExecuter);
             this.Controls.Add(this.buttonSource);
-            this.Controls.Add(this.txtBoxSourcePath);
+            this.Controls.Add(this.txtBoxDestinationPath);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "vasChercher";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -109,7 +111,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtBoxSourcePath;
+        private System.Windows.Forms.TextBox txtBoxDestinationPath;
         private System.Windows.Forms.Button buttonSource;
         private System.Windows.Forms.Button buttonExecuter;
         private System.Windows.Forms.DateTimePicker dateTimePickerAchercher;
