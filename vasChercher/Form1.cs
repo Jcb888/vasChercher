@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Microsoft.VisualBasic.FileIO;
 
 namespace vasChercher
 {
@@ -72,26 +73,53 @@ namespace vasChercher
         {
 
 
-            chercherFichiersDanspath(this.txtBoxDestinationPath.Text);
+            chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text);
 
 
         }
 
-        protected void chercherFichiersDanspath(String sp)
+
+        //protected void chercherRepertoiresDansPath(String sp, string destPath)
+        //{
+        //    string[] tabDirectory = Directory.GetDirectories(sp);
+        //    foreach (String path in tabDirectory)
+        //    {
+        //        if (File.Exists(path))
+        //        {
+        //            // This path is a file
+        //            ProcessFile(path,sp, destPath);
+
+        //        }
+        //        else if (Directory.Exists(path))
+        //        {
+        //            // This path is a directory
+        //            ProcessDirectory(path, destPath);
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("{0} is not a valid file or directory.", path);
+        //        }
+        //    }
+
+        //}
+
+
+        protected void chercherFichiersDanspath(String sp, string destPath)
         {
-            string[] tabFiles = Directory.GetFiles(sp);
+            string[] tabFiles = Directory.GetFileSystemEntries(sp);
 
             foreach (String path in tabFiles)
             {
                 if (File.Exists(path))
                 {
                     // This path is a file
-                    ProcessFile(path);
+                    ProcessFile(path,sp, destPath);
+
                 }
                 else if (Directory.Exists(path))
                 {
                     // This path is a directory
-                    ProcessDirectory(path);
+                    ProcessDirectory(path, destPath);
                 }
                 else
                 {
@@ -102,29 +130,32 @@ namespace vasChercher
 
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
-        public static void ProcessDirectory(string targetDirectory)
+        public static void ProcessDirectory(string targetDirectory, string destinationPath)
         {
             // Process the list of files found in the directory.
             string[] fileEntries = Directory.GetFiles(targetDirectory);
             foreach (string fileName in fileEntries)
-                ProcessFile(fileName);
+                ProcessFile(fileName, targetDirectory, destinationPath);
 
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
             foreach (string subdirectory in subdirectoryEntries)
-                ProcessDirectory(subdirectory);
+                ProcessDirectory(subdirectory,destinationPath);
         }
 
         // Insert logic for processing found files here.
-        public static void ProcessFile(string path)
+        public static void ProcessFile(string path, string targetDirectory ,string destPath)
         {
+            //string destinationFile = ;
             Console.WriteLine("Processed file '{0}'.", path);
+            //FileSystem.CopyFile(path, destPath + Path.GetFileName(path), UIOption.AllDialogs);
         }
 
-        protected bool isDateEquals()
+        protected bool isDateEquals(DateTime dti)
         {
 
             DateTime dt = dateTimePickerAchercher.Value;
+
 
 
             return true;
