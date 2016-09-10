@@ -76,8 +76,10 @@ namespace vasChercher
             chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text, this.dateTimePickerAchercher.Value);
             string [] tab = trierLaListeRetournerTableau();
             EcrireLeFichierM3U(tab);
+            System.Diagnostics.Process.Start("explorer.exe", this.txtBoxDestinationPath.Text);
             listeFichiers.Clear();
             tab = null;
+
 
         }
 
