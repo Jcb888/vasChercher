@@ -74,8 +74,28 @@ namespace vasChercher
 
 
             chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text, this.dateTimePickerAchercher.Value);
+            string [] tab = trierLaListeRetournerTableau();
+            EcrireLeFichierM3U(tab);
+            listeFichiers.Clear();
+            tab = null;
 
+        }
 
+        private string[] trierLaListeRetournerTableau()
+        {
+            listeFichiers.OrderBy(x => x.Length).ToList();
+            string [] s = new string [listeFichiers.Count];
+            for (int i = 0; i < listeFichiers.Count; i++)
+            {
+                s[i] = listeFichiers[i].Name;
+            }
+
+            return s; 
+        }
+
+        private void EcrireLeFichierM3U(string [] s)
+        {
+            System.IO.File.WriteAllLines(@"C:\Users\jc\Desktop\Podcasts\Jour\1jour.m3u", s);
         }
 
 
@@ -166,7 +186,7 @@ namespace vasChercher
                 //string destinationFile = ;
                 Console.WriteLine("Processed file '{0}'.", path);
 
-                FileSystem.CopyFile(path, destPath + Path.GetFileName(path), UIOption.AllDialogs);
+                FileSystem.CopyFile(path, destPath + "\\"+ Path.GetFileName(path), UIOption.AllDialogs);
             }
         }
 
