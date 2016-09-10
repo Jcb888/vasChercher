@@ -23,7 +23,7 @@ namespace vasChercher
         string appDataArterris = "";//c'est dans ce repertoire qu'on a les droits et qu'il convient d'écrire
         string appdata = "";//son ss rep.
         Parametres fp = new Parametres();
-
+        static List<FileInfo> listeFichiers = new List<FileInfo>(); 
 
 
         public Form1()
@@ -73,7 +73,7 @@ namespace vasChercher
         {
 
 
-            chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text);
+            chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text, this.dateTimePickerAchercher.Value);
 
 
         }
@@ -104,7 +104,7 @@ namespace vasChercher
         //}
 
 
-        protected void chercherFichiersDanspath(String sp, string destPath)
+        protected void chercherFichiersDanspath(String sp, string destPath, DateTime dt)
         {
             string[] tabFiles = Directory.GetFileSystemEntries(sp);
 
@@ -113,13 +113,13 @@ namespace vasChercher
                 if (File.Exists(path))
                 {
                     // This path is a file
-                    ProcessFile(path,sp, destPath);
+                    ProcessFile(path,sp, destPath, dt);
 
                 }
                 else if (Directory.Exists(path))
                 {
                     // This path is a directory
-                    ProcessDirectory(path, destPath);
+                    ProcessDirectory(path, destPath, dt);
                 }
                 else
                 {
@@ -130,56 +130,60 @@ namespace vasChercher
 
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
-        public static void ProcessDirectory(string targetDirectory, string destinationPath)
+        public static void ProcessDirectory(string targetDirectory, string destinationPath, DateTime dtToFind)
         {
             // Process the list of files found in the directory.
             string[] fileEntries = Directory.GetFiles(targetDirectory);
             foreach (string fileName in fileEntries)
-                ProcessFile(fileName, targetDirectory, destinationPath);
+                ProcessFile(fileName, targetDirectory, destinationPath, dtToFind);
 
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
             foreach (string subdirectory in subdirectoryEntries)
-                ProcessDirectory(subdirectory,destinationPath);
+                ProcessDirectory(subdirectory,destinationPath, dtToFind);
         }
 
         // Insert logic for processing found files here.
-        public static void ProcessFile(string path, string targetDirectory ,string destPath)
+        public static void ProcessFile(string path, string targetDirectory ,string destPath,  DateTime dtToFind)
         {
-            //string destinationFile = ;
-            Console.WriteLine("Processed file '{0}'.", path);
-            //FileSystem.CopyFile(path, destPath + Path.GetFileName(path), UIOption.AllDialogs);
-        }
-
-        protected bool isDateEquals(DateTime dti)
-        {
-
-            DateTime dt = dateTimePickerAchercher.Value;
-
-
-
-            return true;
-        }
-
-        /// <summary>
-        /// strucuture pour ranger dans la liste
-        /// </summary>
-        public class fileInfo
-        {
-            public fileInfo(String p, Int64 s, DateTime d)
+            FileStream fs;
+            try
             {
-                path = p;
-                size = s;
-                date = d;
+                fs = new FileStream(path, FileMode.Open);
+                 
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.ToString());
             }
 
-            public String path;
-            public Int64 size;
-            public DateTime date;
+            if (isDateEquals(path, dtToFind))
+            {
+                FileInfo fi = new FileInfo(path);
 
+                listeFichiers.Add(fi);
+                //string destinationFile = ;
+                Console.WriteLine("Processed file '{0}'.", path);
+
+                FileSystem.CopyFile(path, destPath + Path.GetFileName(path), UIOption.AllDialogs);
+            }
         }
 
-        
+        static protected bool isDateEquals(String path, DateTime dtToFind)
+        {
+            DateTime dtFile = File.GetCreationTime(path).Date;
+
+            if (dtFile.Date == dtToFind.Date)
+            {
+                return true;
+            }
+                             
+            else
+            return false;
+        }
+
+           
 
         private void buttonSource_Click(object sender, EventArgs e)
         {
@@ -291,4 +295,5 @@ namespace vasChercher
 
 
     }
+
 }//fin NSpace
