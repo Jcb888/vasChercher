@@ -72,15 +72,30 @@ namespace vasChercher
         private void buttonExecuter_Click(object sender, EventArgs e)
         {
 
-
+            effacerContenuRepertoireDestination();
             chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text, this.dateTimePickerAchercher.Value);
-            string [] tab = trierLaListeRetournerTableau();
+            
+            string[] tab = trierLaListeRetournerTableau();
             EcrireLeFichierM3U(tab);
             System.Diagnostics.Process.Start("explorer.exe", this.txtBoxDestinationPath.Text);
             listeFichiers.Clear();
             tab = null;
 
 
+        }
+
+        private void effacerContenuRepertoireDestination()
+        {
+            System.IO.DirectoryInfo di = new DirectoryInfo(this.txtBoxDestinationPath.Text);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(true);
+            }
         }
 
         private string[] trierLaListeRetournerTableau()
@@ -99,32 +114,6 @@ namespace vasChercher
         {
             System.IO.File.WriteAllLines(@"C:\Users\jc\Desktop\Podcasts\Jour\1jour.m3u", s);
         }
-
-
-        //protected void chercherRepertoiresDansPath(String sp, string destPath)
-        //{
-        //    string[] tabDirectory = Directory.GetDirectories(sp);
-        //    foreach (String path in tabDirectory)
-        //    {
-        //        if (File.Exists(path))
-        //        {
-        //            // This path is a file
-        //            ProcessFile(path,sp, destPath);
-
-        //        }
-        //        else if (Directory.Exists(path))
-        //        {
-        //            // This path is a directory
-        //            ProcessDirectory(path, destPath);
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("{0} is not a valid file or directory.", path);
-        //        }
-        //    }
-
-        //}
-
 
         protected void chercherFichiersDanspath(String sp, string destPath, DateTime dt)
         {
@@ -168,17 +157,14 @@ namespace vasChercher
         // Insert logic for processing found files here.
         public static void ProcessFile(string path, string targetDirectory ,string destPath,  DateTime dtToFind)
         {
-            FileStream fs;
-            try
-            {
-                fs = new FileStream(path, FileMode.Open);
+            //FileStream fs;
+            //try
+            //{
+            //    fs = new FileStream(path, FileMode.Open);
                  
-            }
-            catch (Exception e)
-            {
+            //}
+            
 
-                Console.WriteLine(e.ToString());
-            }
 
             if (isDateEquals(path, dtToFind))
             {
@@ -186,9 +172,41 @@ namespace vasChercher
 
                 listeFichiers.Add(fi);
                 //string destinationFile = ;
-                Console.WriteLine("Processed file '{0}'.", path);
+                // Console.WriteLine("Processed file '{0}'.", path);
+                try
+                {
+                    FileSystem.CopyFile(path, destPath + "\\" + Path.GetFileName(path), UIOption.AllDialogs);
+                }
+                catch (System.OperationCanceledException oce)
+                {
+                    MessageBox.Show("Opération annulée par l'utilisateur " + oce.StackTrace);
+                }
+                catch (PathTooLongException ptle)
+                {
+                    MessageBox.Show("Le chemin vers le répertoir est trop long " + ptle.StackTrace);
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    MessageBox.Show("Le chemin vers le répertoir n'existe pas ");
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Il manque un chemin ");
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Erreur lecture écriture");
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    MessageBox.Show("Accés fichier refusé par le system");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Erreur lors de la copie: " + e.StackTrace.ToString());
+                }
 
-                FileSystem.CopyFile(path, destPath + "\\"+ Path.GetFileName(path), UIOption.AllDialogs);
+
             }
         }
 
