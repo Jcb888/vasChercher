@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtBoxDestinationPath = new System.Windows.Forms.TextBox();
             this.buttonSource = new System.Windows.Forms.Button();
             this.buttonExecuter = new System.Windows.Forms.Button();
@@ -48,7 +49,7 @@
             // 
             this.buttonSource.Location = new System.Drawing.Point(366, 60);
             this.buttonSource.Name = "buttonSource";
-            this.buttonSource.Size = new System.Drawing.Size(75, 23);
+            this.buttonSource.Size = new System.Drawing.Size(43, 23);
             this.buttonSource.TabIndex = 2;
             this.buttonSource.Text = "...";
             this.buttonSource.UseVisualStyleBackColor = true;
@@ -56,11 +57,11 @@
             // 
             // buttonExecuter
             // 
-            this.buttonExecuter.Location = new System.Drawing.Point(13, 148);
+            this.buttonExecuter.Location = new System.Drawing.Point(13, 109);
             this.buttonExecuter.Name = "buttonExecuter";
             this.buttonExecuter.Size = new System.Drawing.Size(75, 39);
             this.buttonExecuter.TabIndex = 4;
-            this.buttonExecuter.Text = "button1";
+            this.buttonExecuter.Text = "vasChercher";
             this.buttonExecuter.UseVisualStyleBackColor = true;
             this.buttonExecuter.Click += new System.EventHandler(this.buttonExecuter_Click);
             // 
@@ -77,7 +78,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(471, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(425, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -92,12 +93,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 249);
+            this.ClientSize = new System.Drawing.Size(425, 169);
             this.Controls.Add(this.dateTimePickerAchercher);
             this.Controls.Add(this.buttonExecuter);
             this.Controls.Add(this.buttonSource);
             this.Controls.Add(this.txtBoxDestinationPath);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "vasChercher";

@@ -23,6 +23,8 @@ namespace vasChercher
         private void Parametres_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.Hide();
+            Form1 f = this.Tag as Form1;
+            f.creatXML(); 
             e.Cancel = true; // this cancels the close event.
 
         }

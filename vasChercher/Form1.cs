@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.FileIO;
+using NAudio.Wave;
 
 namespace vasChercher
 {
@@ -31,6 +32,7 @@ namespace vasChercher
             InitializeComponent();
             appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             appDataArterris = Path.Combine(appdata, "JCSoft");
+            fp.Tag = this;
             if (!Directory.Exists(appDataArterris))
                 Directory.CreateDirectory(appDataArterris);
 
@@ -41,6 +43,8 @@ namespace vasChercher
             {
                 co.strSourcePath = "";
                 co.strDestinationPath = "";
+                co.strNomFichierSortie = "";
+                co.effacerDest = true;
                 using (StreamWriter wr = new StreamWriter(appDataArterris + "\\config.xml"))
                 {
                     xs.Serialize(wr, co);
@@ -55,6 +59,8 @@ namespace vasChercher
                 this.txtBoxDestinationPath.Text = co.strDestinationPath;
                 //fp.pSource = co.strSourcePath;
                 fp.txtBoxSourcePath.Text = co.strSourcePath;
+                fp.textBoxNomFichierSortie.Text = co.strNomFichierSortie;
+                fp.checkBoxEffacerDestination.Checked = co.effacerDest;
                 //this.txtBoxDestinationPath.Text = ;
             }
 
@@ -71,16 +77,17 @@ namespace vasChercher
 
         private void buttonExecuter_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+            if(fp.checkBoxEffacerDestination.Checked)
+             effacerContenuRepertoireDestination();
 
-            effacerContenuRepertoireDestination();
             chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text, this.dateTimePickerAchercher.Value);
-            
             string[] tab = trierLaListeRetournerTableau();
             EcrireLeFichierM3U(tab);
             System.Diagnostics.Process.Start("explorer.exe", this.txtBoxDestinationPath.Text);
             listeFichiers.Clear();
             tab = null;
-
+            Cursor.Current = Cursors.Default;
 
         }
 
@@ -100,7 +107,8 @@ namespace vasChercher
 
         private string[] trierLaListeRetournerTableau()
         {
-            listeFichiers.OrderBy(x => x.Length).ToList();
+            
+            listeFichiers = listeFichiers.OrderBy((x) => x.Length).ToList();
             string [] s = new string [listeFichiers.Count];
             for (int i = 0; i < listeFichiers.Count; i++)
             {
@@ -110,9 +118,36 @@ namespace vasChercher
             return s; 
         }
 
-        private void EcrireLeFichierM3U(string [] s)
+        private void EcrireLeFichierM3U(params string [] s)
         {
-            System.IO.File.WriteAllLines(@"C:\Users\jc\Desktop\Podcasts\Jour\1jour.m3u", s);
+           
+            if (fp.textBoxNomFichierSortie.Text == String.Empty)
+            {
+
+                try
+                {
+                    System.IO.File.WriteAllText(@"C:\Users\jc\Desktop\Podcasts\Jour\0jour.m3u", string.Join("\n", s));
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show(e.StackTrace.ToString());
+                }
+
+            }
+            else
+            {
+                try
+                {
+                    System.IO.File.WriteAllText(@"C:\Users\jc\Desktop\Podcasts\Jour\" + fp.textBoxNomFichierSortie.Text, string.Join("\n", s));
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show(e.StackTrace.ToString());
+                }
+                
+            }
         }
 
         protected void chercherFichiersDanspath(String sp, string destPath, DateTime dt)
@@ -157,14 +192,6 @@ namespace vasChercher
         // Insert logic for processing found files here.
         public static void ProcessFile(string path, string targetDirectory ,string destPath,  DateTime dtToFind)
         {
-            //FileStream fs;
-            //try
-            //{
-            //    fs = new FileStream(path, FileMode.Open);
-                 
-            //}
-            
-
 
             if (isDateEquals(path, dtToFind))
             {
@@ -259,7 +286,8 @@ namespace vasChercher
             {
                 co.strSourcePath = fp.txtBoxSourcePath.Text;
                 co.strDestinationPath = this.txtBoxDestinationPath.Text;
-
+                co.strNomFichierSortie = fp.textBoxNomFichierSortie.Text;
+                co.effacerDest = fp.checkBoxEffacerDestination.Checked;
                 XmlSerializer xs = new XmlSerializer(typeof(configObject));
                 using (StreamWriter wr = new StreamWriter(appDataArterris + "\\config.xml"))
                 {
@@ -321,6 +349,33 @@ namespace vasChercher
                 e.Cancel = true;
             }
         }
+
+        private void splitMP3()
+        {
+            string strMP3Folder = "<YOUR FOLDER PATH>";
+            string strMP3SourceFilename = "<YOUR SOURCE MP3 FILENAMe>";
+            string strMP3OutputFilename = "<YOUR OUTPUT MP3 FILENAME>";
+
+            using (Mp3FileReader reader = new Mp3FileReader(strMP3Folder + strMP3SourceFilename))
+            {
+                int count = 1;
+                Mp3Frame mp3Frame = reader.ReadNextFrame();
+                System.IO.FileStream _fs = new System.IO.FileStream(strMP3Folder + strMP3OutputFilename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+
+                while (mp3Frame != null)
+                {
+                    if (count > 500) //retrieve a sample of 500 frames
+                        return;
+
+                    _fs.Write(mp3Frame.RawData, 0, mp3Frame.RawData.Length);
+                    count = count + 1;
+                    mp3Frame = reader.ReadNextFrame();
+                }
+
+                _fs.Close();
+            }
+            
+        }
     }//Fin Classe
 
     public class configObject
@@ -332,6 +387,8 @@ namespace vasChercher
 
         public String strSourcePath;
         public String strDestinationPath;
+        public String strNomFichierSortie;
+        public bool effacerDest;
 
 
     }
