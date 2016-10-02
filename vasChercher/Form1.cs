@@ -354,15 +354,16 @@ namespace vasChercher
 
         private void splitMP3()
         {
-            string strMP3Folder = "<YOUR FOLDER PATH>";
-            string strMP3SourceFilename = "<YOUR SOURCE MP3 FILENAMe>";
-            string strMP3OutputFilename = "<YOUR OUTPUT MP3 FILENAME>";
+            string strMP3SrcFolder = fp.txtBoxSourcePath.Text;
+            string strMP3DstFolder = this.txtBoxDestinationPath.Text;
+            string strMP3SourceFilename = "";
+            string strMP3OutputFilename = "";
 
-            using (Mp3FileReader reader = new Mp3FileReader(strMP3Folder + strMP3SourceFilename))
+            using (Mp3FileReader reader = new Mp3FileReader(strMP3SrcFolder + strMP3SourceFilename))
             {
                 int count = 1;
                 Mp3Frame mp3Frame = reader.ReadNextFrame();
-                System.IO.FileStream _fs = new System.IO.FileStream(strMP3Folder + strMP3OutputFilename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+                System.IO.FileStream _fs = new System.IO.FileStream(strMP3DstFolder + strMP3OutputFilename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
 
                 while (mp3Frame != null)
                 {
@@ -370,7 +371,7 @@ namespace vasChercher
                         return;
 
                     _fs.Write(mp3Frame.RawData, 0, mp3Frame.RawData.Length);
-                    count = count + 1;
+                    count++;
                     mp3Frame = reader.ReadNextFrame();
                 }
 
