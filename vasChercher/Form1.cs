@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.FileIO;
 using NAudio.Wave;
+using System.Management;
 
 namespace vasChercher
 {
@@ -125,8 +126,8 @@ namespace vasChercher
             {
 
                 try
-                {
-                    System.IO.File.WriteAllText(@"C:\Users\jc\Desktop\Podcasts\Jour\0jour.m3u", string.Join("\n", s));
+                {//nom de fichier m3u par defaut
+                    System.IO.File.WriteAllText(@"C:\Users\jc\Desktop\Podcasts\Jour\0jour.m3u", string.Join("\n", s), Encoding.GetEncoding("ISO-8859-1"));
                 }
                 catch (Exception e)
                 {
@@ -138,13 +139,14 @@ namespace vasChercher
             else
             {
                 try
-                {
-                    System.IO.File.WriteAllText(@"C:\Users\jc\Desktop\Podcasts\Jour\" + fp.textBoxNomFichierSortie.Text, string.Join("\n", s));
+                {//nom de fichier m3u parametre dans les options
+                    System.IO.File.WriteAllText(@"C:\Users\jc\Desktop\Podcasts\Jour\" + fp.textBoxNomFichierSortie.Text, string.Join("\n", s), Encoding.GetEncoding("ISO-8859-1"));
                 }
                 catch (Exception e)
                 {
 
                     MessageBox.Show(e.StackTrace.ToString());
+
                 }
                 
             }
@@ -376,6 +378,25 @@ namespace vasChercher
             }
             
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //remplacer par liste déroulante.
+            System.Windows.Forms.OpenFileDialog dls = new System.Windows.Forms.OpenFileDialog();
+            dls.CustomPlaces.Clear();
+            foreach (DriveInfo Drive in DriveInfo.GetDrives())
+            {
+                if (Drive.DriveType == DriveType.Removable)
+                {
+                    dls.CustomPlaces.Add(Drive.Name);
+                }
+                
+            }
+            dls.ShowDialog();
+        }
+
+
+
     }//Fin Classe
 
     public class configObject

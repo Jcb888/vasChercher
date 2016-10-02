@@ -35,6 +35,8 @@
             this.dateTimePickerAchercher = new System.Windows.Forms.DateTimePicker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBoxCleUSB = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +59,7 @@
             // 
             // buttonExecuter
             // 
-            this.buttonExecuter.Location = new System.Drawing.Point(13, 109);
+            this.buttonExecuter.Location = new System.Drawing.Point(13, 148);
             this.buttonExecuter.Name = "buttonExecuter";
             this.buttonExecuter.Size = new System.Drawing.Size(75, 39);
             this.buttonExecuter.TabIndex = 4;
@@ -89,11 +91,30 @@
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
+            // textBoxCleUSB
+            // 
+            this.textBoxCleUSB.Location = new System.Drawing.Point(13, 105);
+            this.textBoxCleUSB.Name = "textBoxCleUSB";
+            this.textBoxCleUSB.Size = new System.Drawing.Size(336, 20);
+            this.textBoxCleUSB.TabIndex = 7;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(366, 105);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(43, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 169);
+            this.ClientSize = new System.Drawing.Size(425, 217);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBoxCleUSB);
             this.Controls.Add(this.dateTimePickerAchercher);
             this.Controls.Add(this.buttonExecuter);
             this.Controls.Add(this.buttonSource);
@@ -119,6 +140,8 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerAchercher;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBoxCleUSB;
+        private System.Windows.Forms.Button button1;
     }
 }
 
