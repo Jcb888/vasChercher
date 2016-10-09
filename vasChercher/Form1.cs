@@ -48,6 +48,7 @@ namespace vasChercher
                 co.effacerDest = true;
                 co.minSizeForSplit = 15000000;
                 co.nbParts = 10;
+                co.splitter = true;
 
                 using (StreamWriter wr = new StreamWriter(appDataArterris + "\\config.xml"))
                 {
@@ -67,6 +68,7 @@ namespace vasChercher
                 fp.checkBoxEffacerDestination.Checked = co.effacerDest;
                 fp.textBoxMinSizeForSplit.Text = co.minSizeForSplit.ToString();
                 fp.textBoxNbParts.Text = co.nbParts.ToString();
+                fp.checkBoxSplitter.Checked = co.splitter;
                 //this.txtBoxDestinationPath.Text = ;
             }
 
@@ -208,7 +210,7 @@ namespace vasChercher
                 //string destinationFile = ;
                 // Console.WriteLine("Processed file '{0}'.", path);
 
-                if (fi.Length > co.minSizeForSplit * 1000000)
+                if (co.splitter && fi.Length > co.minSizeForSplit * 1000000)
                 {
                     splitMP3(path, co.nbParts);
 
@@ -306,6 +308,7 @@ namespace vasChercher
                 co.effacerDest = fp.checkBoxEffacerDestination.Checked;
                 co.minSizeForSplit = long.Parse(fp.textBoxMinSizeForSplit.Text);
                 co.nbParts = int.Parse(fp.textBoxNbParts.Text);
+                co.splitter = fp.checkBoxSplitter.Checked;
                 XmlSerializer xs = new XmlSerializer(typeof(configObject));
                 using (StreamWriter wr = new StreamWriter(appDataArterris + "\\config.xml"))
                 {
@@ -526,6 +529,7 @@ namespace vasChercher
         public long minSizeForSplit;
         public int nbParts;
         public bool effacerDest;
+        public bool splitter;
 
 
     }

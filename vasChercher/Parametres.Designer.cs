@@ -35,7 +35,7 @@
             this.labelNomFichierSortie = new System.Windows.Forms.Label();
             this.checkBoxEffacerDestination = new System.Windows.Forms.CheckBox();
             this.textBoxNbParts = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSplitter = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxMinSizeForSplit = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -93,15 +93,15 @@
             this.textBoxNbParts.Size = new System.Drawing.Size(42, 20);
             this.textBoxNbParts.TabIndex = 7;
             // 
-            // checkBox1
+            // checkBoxSplitter
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(16, 177);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(73, 17);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Splitter en";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBoxSplitter.AutoSize = true;
+            this.checkBoxSplitter.Location = new System.Drawing.Point(16, 177);
+            this.checkBoxSplitter.Name = "checkBoxSplitter";
+            this.checkBoxSplitter.Size = new System.Drawing.Size(73, 17);
+            this.checkBoxSplitter.TabIndex = 8;
+            this.checkBoxSplitter.Text = "Splitter en";
+            this.checkBoxSplitter.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -155,7 +155,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxMinSizeForSplit);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBoxSplitter);
             this.Controls.Add(this.textBoxNbParts);
             this.Controls.Add(this.checkBoxEffacerDestination);
             this.Controls.Add(this.labelNomFichierSortie);
@@ -178,12 +178,12 @@
         public System.Windows.Forms.TextBox textBoxNomFichierSortie;
         private System.Windows.Forms.Label labelNomFichierSortie;
         public System.Windows.Forms.CheckBox checkBoxEffacerDestination;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox3;
         public System.Windows.Forms.TextBox textBoxMinSizeForSplit;
         public System.Windows.Forms.TextBox textBoxNbParts;
+        public System.Windows.Forms.CheckBox checkBoxSplitter;
     }
 }
