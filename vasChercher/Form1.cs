@@ -15,17 +15,17 @@ using System.Management;
 
 namespace vasChercher
 {
-   
+
 
     public partial class Form1 : Form
     {
 
         configObject paramApp;
-        configObject co = new configObject();
+        static configObject co = new configObject();
         string appDataArterris = "";//c'est dans ce repertoire qu'on a les droits et qu'il convient d'écrire
         string appdata = "";//son ss rep.
         Parametres fp = new Parametres();
-        static List<FileInfo> listeFichiers = new List<FileInfo>(); 
+        static List<FileInfo> listeFichiers = new List<FileInfo>();
 
 
         public Form1()
@@ -73,14 +73,14 @@ namespace vasChercher
         {
 
             fp.Show();
-            
+
         }
 
         private void buttonExecuter_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            if(fp.checkBoxEffacerDestination.Checked)
-             effacerContenuRepertoireDestination();
+            if (fp.checkBoxEffacerDestination.Checked)
+                effacerContenuRepertoireDestination();
 
             chercherFichiersDanspath(fp.txtBoxSourcePath.Text, this.txtBoxDestinationPath.Text, this.dateTimePickerAchercher.Value);
             string[] tab = trierLaListeRetournerTableau();
@@ -108,20 +108,20 @@ namespace vasChercher
 
         private string[] trierLaListeRetournerTableau()
         {
-            
+
             listeFichiers = listeFichiers.OrderBy((x) => x.Length).ToList();
-            string [] s = new string [listeFichiers.Count];
+            string[] s = new string[listeFichiers.Count];
             for (int i = 0; i < listeFichiers.Count; i++)
             {
                 s[i] = listeFichiers[i].Name;
             }
 
-            return s; 
+            return s;
         }
 
-        private void EcrireLeFichierM3U(params string [] s)
+        private void EcrireLeFichierM3U(params string[] s)
         {
-           
+
             if (fp.textBoxNomFichierSortie.Text == String.Empty)
             {
 
@@ -148,7 +148,7 @@ namespace vasChercher
                     MessageBox.Show(e.StackTrace.ToString());
 
                 }
-                
+
             }
         }
 
@@ -161,7 +161,7 @@ namespace vasChercher
                 if (File.Exists(path))
                 {
                     // This path is a file
-                    ProcessFile(path,sp, destPath, dt);
+                    ProcessFile(path, sp, destPath, dt);
 
                 }
                 else if (Directory.Exists(path))
@@ -188,54 +188,63 @@ namespace vasChercher
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
             foreach (string subdirectory in subdirectoryEntries)
-                ProcessDirectory(subdirectory,destinationPath, dtToFind);
+                ProcessDirectory(subdirectory, destinationPath, dtToFind);
         }
 
         // Insert logic for processing found files here.
-        public static void ProcessFile(string path, string targetDirectory ,string destPath,  DateTime dtToFind)
+        public static void ProcessFile(string path, string targetDirectory, string destPath, DateTime dtToFind)
         {
 
             if (isDateEquals(path, dtToFind))
             {
                 FileInfo fi = new FileInfo(path);
 
-                listeFichiers.Add(fi);
+               
                 //string destinationFile = ;
                 // Console.WriteLine("Processed file '{0}'.", path);
-                try
-                {
-                    FileSystem.CopyFile(path, destPath + "\\" + Path.GetFileName(path), UIOption.AllDialogs);
-                }
-                catch (System.OperationCanceledException oce)
-                {
-                    MessageBox.Show("Opération annulée par l'utilisateur " + oce.StackTrace);
-                }
-                catch (PathTooLongException ptle)
-                {
-                    MessageBox.Show("Le chemin vers le répertoir est trop long " + ptle.StackTrace);
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    MessageBox.Show("Le chemin vers le répertoir n'existe pas ");
-                }
-                catch (ArgumentException)
-                {
-                    MessageBox.Show("Il manque un chemin ");
-                }
-                catch (IOException)
-                {
-                    MessageBox.Show("Erreur lecture écriture");
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    MessageBox.Show("Accés fichier refusé par le system");
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Erreur lors de la copie: " + e.StackTrace.ToString());
-                }
 
+                if (fi.Length > 20000000)
+                {
+                    splitMP3(path, 10);
 
+                }
+                else
+                {
+                    listeFichiers.Add(fi);
+                    try
+                    {
+                        FileSystem.CopyFile(path, destPath + "\\" + Path.GetFileName(path), UIOption.AllDialogs);
+                    }
+                    catch (System.OperationCanceledException oce)
+                    {
+                        MessageBox.Show("Opération annulée par l'utilisateur " + oce.StackTrace);
+                    }
+                    catch (PathTooLongException ptle)
+                    {
+                        MessageBox.Show("Le chemin vers le répertoir est trop long " + ptle.StackTrace);
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        MessageBox.Show("Le chemin vers le répertoir n'existe pas ");
+                    }
+                    catch (ArgumentException)
+                    {
+                        MessageBox.Show("Il manque un chemin ");
+                    }
+                    catch (IOException)
+                    {
+                        MessageBox.Show("Erreur lecture écriture");
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        MessageBox.Show("Accés fichier refusé par le system");
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Erreur lors de la copie: " + e.StackTrace.ToString());
+                    }
+
+                }
             }
         }
 
@@ -247,12 +256,12 @@ namespace vasChercher
             {
                 return true;
             }
-                             
+
             else
-            return false;
+                return false;
         }
 
-           
+
 
         private void buttonSource_Click(object sender, EventArgs e)
         {
@@ -352,18 +361,22 @@ namespace vasChercher
             }
         }
 
-        private void splitMP3()
+        private static void splitMP3(String strpath)
         {
-            string strMP3SrcFolder = fp.txtBoxSourcePath.Text;
-            string strMP3DstFolder = this.txtBoxDestinationPath.Text;
-            string strMP3SourceFilename = "";
-            string strMP3OutputFilename = "";
+            //const string dest = txtBoxDestinationPath.Text;
+            string strMP3SrcFolder = Path.GetDirectoryName(strpath);
+            string strMP3DstFolder = Path.GetDirectoryName(strpath);
+            string strMP3SourceFilename = Path.GetFileName(strpath);
+            string strMP3OutputFilename = Path.GetFileName(strpath) + "[1]";
 
-            using (Mp3FileReader reader = new Mp3FileReader(strMP3SrcFolder + strMP3SourceFilename))
+            using (Mp3FileReader reader = new Mp3FileReader(strMP3SrcFolder + "\\" + strMP3SourceFilename))
             {
+
                 int count = 1;
+
                 Mp3Frame mp3Frame = reader.ReadNextFrame();
                 System.IO.FileStream _fs = new System.IO.FileStream(strMP3DstFolder + strMP3OutputFilename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+
 
                 while (mp3Frame != null)
                 {
@@ -377,7 +390,98 @@ namespace vasChercher
 
                 _fs.Close();
             }
-            
+
+        }
+
+        private static void splitMP3(TimeSpan ts)
+        {
+            var mp3Path = @"d:\temp\test.mp3";
+            int splitLength = (int)ts.TotalSeconds; // seconds
+
+            var mp3Dir = Path.GetDirectoryName(mp3Path);
+            var mp3File = Path.GetFileName(mp3Path);
+            var splitDir = Path.Combine(mp3Dir, Path.GetFileNameWithoutExtension(mp3Path));
+            Directory.CreateDirectory(splitDir);
+
+            int splitI = 0;
+            int secsOffset = 0;
+
+            using (var reader = new Mp3FileReader(mp3Path))
+            {
+                //Console.WriteLine("taille totale :"+reader.Length.ToString());
+                FileStream writer = null;
+                Action createWriter = new Action(() =>
+                {
+                    writer = File.Create(Path.Combine(splitDir, Path.ChangeExtension(mp3File, (++splitI).ToString("D4") + ".mp3")));
+                });
+
+                Mp3Frame frame;
+                while ((frame = reader.ReadNextFrame()) != null)
+                {
+                    if (writer == null) createWriter();
+
+                    //Console.WriteLine("jcPosition : "+reader.Position.ToString());
+                    if ((int)reader.CurrentTime.TotalSeconds - secsOffset >= splitLength)//test longueur en tps
+                    {
+                        // time for a new file
+                        writer.Dispose();
+                        createWriter();
+                        secsOffset = (int)reader.CurrentTime.TotalSeconds;
+                    }
+
+                    writer.Write(frame.RawData, 0, frame.RawData.Length);
+                }
+
+                if (writer != null) writer.Dispose();
+            }
+
+
+        }
+
+        private static void splitMP3(String path, int nbParts)
+        {
+            var mp3Path = path;
+            // const configObject cco = &co;
+
+            var mp3Dir = Path.GetDirectoryName(mp3Path);
+            var mp3File = Path.GetFileName(mp3Path);
+            var splitDir = Path.Combine(co.strDestinationPath, Path.GetFileNameWithoutExtension(mp3Path));
+            Directory.CreateDirectory(splitDir);
+
+            int splitI = 0;
+            long posSplitPrecedent = 0;
+
+            using (var reader = new Mp3FileReader(mp3Path))
+            {
+                long splitLength = reader.Length / nbParts; // octets
+                //Console.WriteLine("taille totale :"+reader.Length.ToString());
+                FileStream writer = null;
+                Action createWriter = new Action(() =>
+                {
+                    writer = File.Create(Path.Combine(splitDir, Path.ChangeExtension(mp3File, (++splitI).ToString("D4") + ".mp3")));
+                });
+
+                Mp3Frame frame;
+                while ((frame = reader.ReadNextFrame()) != null)
+                {
+                    if (writer == null) createWriter();
+
+
+                    if (reader.Position - posSplitPrecedent >= splitLength)//test taille du split, on rentre s'il y a un split à créer
+                    {
+
+                        writer.Dispose();
+                        createWriter();
+                        posSplitPrecedent = reader.Position;//mémorisation de la position du split (précédent)
+                    }
+
+                    writer.Write(frame.RawData, 0, frame.RawData.Length);
+                }
+
+                if (writer != null) writer.Dispose();
+            }
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -391,13 +495,15 @@ namespace vasChercher
                 {
                     dls.CustomPlaces.Add(Drive.Name);
                 }
-                
+
             }
             dls.ShowDialog();
         }
 
-
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+            splitMP3(@"d:\temp\test.mp3", 10);
+        }
     }//Fin Classe
 
     public class configObject
