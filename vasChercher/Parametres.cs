@@ -44,5 +44,12 @@ namespace vasChercher
                 //this.creatXML();
             }
         }
+
+        //private void textBoxMinSizeForSplit_Leave(object sender, EventArgs e)
+        //{
+
+        //    Form1 f = this.Tag as Form1;
+        //    f.creatXML();
+        //}
     }
 }

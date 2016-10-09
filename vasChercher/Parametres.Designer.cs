@@ -34,10 +34,10 @@
             this.textBoxNomFichierSortie = new System.Windows.Forms.TextBox();
             this.labelNomFichierSortie = new System.Windows.Forms.Label();
             this.checkBoxEffacerDestination = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxNbParts = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxMinSizeForSplit = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -86,12 +86,12 @@
             this.checkBoxEffacerDestination.Text = "Effacer destination";
             this.checkBoxEffacerDestination.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // textBoxNbParts
             // 
-            this.textBox1.Location = new System.Drawing.Point(95, 174);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(42, 20);
-            this.textBox1.TabIndex = 7;
+            this.textBoxNbParts.Location = new System.Drawing.Point(95, 174);
+            this.textBoxNbParts.Name = "textBoxNbParts";
+            this.textBoxNbParts.Size = new System.Drawing.Size(42, 20);
+            this.textBoxNbParts.TabIndex = 7;
             // 
             // checkBox1
             // 
@@ -112,21 +112,22 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "morceaux les fichiers supérieurs à";
             // 
-            // textBox2
+            // textBoxMinSizeForSplit
             // 
-            this.textBox2.Location = new System.Drawing.Point(315, 175);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(67, 20);
-            this.textBox2.TabIndex = 10;
+            this.textBoxMinSizeForSplit.Location = new System.Drawing.Point(315, 175);
+            this.textBoxMinSizeForSplit.Name = "textBoxMinSizeForSplit";
+            this.textBoxMinSizeForSplit.Size = new System.Drawing.Size(67, 20);
+            this.textBoxMinSizeForSplit.TabIndex = 10;
+            this.textBoxMinSizeForSplit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(389, 178);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.Size = new System.Drawing.Size(22, 13);
             this.label2.TabIndex = 11;
-            this.label2.Text = "Octets";
+            this.label2.Text = "Mo";
             // 
             // label3
             // 
@@ -148,14 +149,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 259);
+            this.ClientSize = new System.Drawing.Size(504, 257);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBoxMinSizeForSplit);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxNbParts);
             this.Controls.Add(this.checkBoxEffacerDestination);
             this.Controls.Add(this.labelNomFichierSortie);
             this.Controls.Add(this.textBoxNomFichierSortie);
@@ -177,12 +178,12 @@
         public System.Windows.Forms.TextBox textBoxNomFichierSortie;
         private System.Windows.Forms.Label labelNomFichierSortie;
         public System.Windows.Forms.CheckBox checkBoxEffacerDestination;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox3;
+        public System.Windows.Forms.TextBox textBoxMinSizeForSplit;
+        public System.Windows.Forms.TextBox textBoxNbParts;
     }
 }

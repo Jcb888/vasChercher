@@ -46,6 +46,9 @@ namespace vasChercher
                 co.strDestinationPath = "";
                 co.strNomFichierSortie = "";
                 co.effacerDest = true;
+                co.minSizeForSplit = 15000000;
+                co.nbParts = 10;
+
                 using (StreamWriter wr = new StreamWriter(appDataArterris + "\\config.xml"))
                 {
                     xs.Serialize(wr, co);
@@ -62,6 +65,8 @@ namespace vasChercher
                 fp.txtBoxSourcePath.Text = co.strSourcePath;
                 fp.textBoxNomFichierSortie.Text = co.strNomFichierSortie;
                 fp.checkBoxEffacerDestination.Checked = co.effacerDest;
+                fp.textBoxMinSizeForSplit.Text = co.minSizeForSplit.ToString();
+                fp.textBoxNbParts.Text = co.nbParts.ToString();
                 //this.txtBoxDestinationPath.Text = ;
             }
 
@@ -203,9 +208,9 @@ namespace vasChercher
                 //string destinationFile = ;
                 // Console.WriteLine("Processed file '{0}'.", path);
 
-                if (fi.Length > 20000000)
+                if (fi.Length > co.minSizeForSplit * 1000000)
                 {
-                    splitMP3(path, 10);
+                    splitMP3(path, co.nbParts);
 
                 }
                 else
@@ -299,6 +304,8 @@ namespace vasChercher
                 co.strDestinationPath = this.txtBoxDestinationPath.Text;
                 co.strNomFichierSortie = fp.textBoxNomFichierSortie.Text;
                 co.effacerDest = fp.checkBoxEffacerDestination.Checked;
+                co.minSizeForSplit = long.Parse(fp.textBoxMinSizeForSplit.Text);
+                co.nbParts = int.Parse(fp.textBoxNbParts.Text);
                 XmlSerializer xs = new XmlSerializer(typeof(configObject));
                 using (StreamWriter wr = new StreamWriter(appDataArterris + "\\config.xml"))
                 {
@@ -516,6 +523,8 @@ namespace vasChercher
         public String strSourcePath;
         public String strDestinationPath;
         public String strNomFichierSortie;
+        public long minSizeForSplit;
+        public int nbParts;
         public bool effacerDest;
 
 
